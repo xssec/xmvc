@@ -4,7 +4,7 @@
 * Model-View-Controller
 * Bootstrap 4
 * PHP 7.4
-* Authentication with JWT and Cookies Managment
+* Authentication with JWT and Cookies Management
 * Include base template App (with DateTime, Tinymce Editor, Dasboard Stats)
 * Self-service registration (optional: set true on config.php)
 * User management
