@@ -21,9 +21,14 @@ class ProfileController extends MainController{
   }
 
   public function index(){
-    $query = $this->auth->selectAll();
-    $data = $this->auth->getResult($query);
-    $this->template('profile', 'Profile', $data);
+    try {
+      $session = SessionManager::getCurrentSession();
+      $query = $this->auth->getUser($session->username);
+      $data = $this->auth->getResult($query);
+      $this->template('profile', 'Profile', $data);
+    } catch (Exception $exception) {
+      $this->redirect('login');
+    }
   }
 
   public function update(){
@@ -35,7 +40,7 @@ class ProfileController extends MainController{
     $data = array();
     $data['password'] = password_hash($_POST['baru'],PASSWORD_BCRYPT);
     $username = $this->validate($_POST['username']);
-    $queryx = $this->auth->showUser($username);
+    $queryx = $this->auth->getUser($username);
     $hash= $queryx[0]['password'];
     $oldPass = password_verify($_POST['lama'],$hash);
 

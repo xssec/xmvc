@@ -32,7 +32,6 @@ start_modal('modal-form', 'return saveData()');
   form_input("Full Name", "fullName", "text", '', "", "required");
   form_input("Email", "email", "email", '', "", "required");
   form_input("Password", "password", "password", '******', "", "");
-  form_input("Temp-Password", "temp-password", "hidden", '', "", "readonly");
   echo '
   <div class="form-group">
    <label for="role">Role</label>
@@ -43,6 +42,7 @@ start_modal('modal-form', 'return saveData()');
    </select>
  </div>
   ';
+  form_input("", "temp-password", "hidden", '', "", "readonly");
 end_modal();
 ?>
 

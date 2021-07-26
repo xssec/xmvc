@@ -11,21 +11,15 @@ class NetInfo {
     * echo $env->system();
   **/
 
-  public $userAgent;
-
-  function __construct($userAgent) {
-    $this->userAgent = $userAgent;
-  }
-
   //ASSIGN VARIABLES TO USER INFO
   /**
    * Retrieves the best guess of the client's actual IP address.
    * Takes into account numerous HTTP proxy headers due to variations
    * in how different ISPs handle IP addresses in headers between hops.
    */
-  function ip(){
+  public static function ip(){
     // check for shared internet/ISP IP
-    if (!empty($_SERVER['HTTP_CLIENT_IP']) && validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
+    if (!empty($_SERVER['HTTP_CLIENT_IP']) && NetInfo::validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
       return $_SERVER['HTTP_CLIENT_IP'];
     }
     // check for IPs passing through proxies
@@ -34,21 +28,21 @@ class NetInfo {
       if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') !== false) {
         $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
         foreach ($iplist as $ip) {
-          if (validate_ip($ip))
+          if (NetInfo::validate_ip($ip))
             return $ip;
         }
       } else {
-        if (validate_ip($_SERVER['HTTP_X_FORWARDED_FOR']))
+        if (NetInfo::validate_ip($_SERVER['HTTP_X_FORWARDED_FOR']))
           return $_SERVER['HTTP_X_FORWARDED_FOR'];
       }
     }
-    if (!empty($_SERVER['HTTP_X_FORWARDED']) && validate_ip($_SERVER['HTTP_X_FORWARDED']))
+    if (!empty($_SERVER['HTTP_X_FORWARDED']) && NetInfo::validate_ip($_SERVER['HTTP_X_FORWARDED']))
       return $_SERVER['HTTP_X_FORWARDED'];
-    if (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && validate_ip($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
+    if (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && NetInfo::validate_ip($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
       return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-    if (!empty($_SERVER['HTTP_FORWARDED_FOR']) && validate_ip($_SERVER['HTTP_FORWARDED_FOR']))
+    if (!empty($_SERVER['HTTP_FORWARDED_FOR']) && NetInfo::validate_ip($_SERVER['HTTP_FORWARDED_FOR']))
       return $_SERVER['HTTP_FORWARDED_FOR'];
-    if (!empty($_SERVER['HTTP_FORWARDED']) && validate_ip($_SERVER['HTTP_FORWARDED']))
+    if (!empty($_SERVER['HTTP_FORWARDED']) && NetInfo::validate_ip($_SERVER['HTTP_FORWARDED']))
       return $_SERVER['HTTP_FORWARDED'];
     // return unreliable ip since all else failed
     return $_SERVER['REMOTE_ADDR'];
@@ -57,7 +51,7 @@ class NetInfo {
    * Ensures an ip address is both a valid IP and does not fall within
    * a private network range.
    */
-  function validate_ip($ip){
+  public static function validate_ip($ip){
     if (strtolower($ip) === 'unknown')
       return false;
     // generate ipv4 network address
@@ -81,28 +75,28 @@ class NetInfo {
     return true;
   }
 
-  function browser(){
-    if (strpos($this->userAgent, 'Opera') || strpos($this->userAgent, 'OPR/')) return 'Opera';
-    elseif (strpos($this->userAgent, 'Edge')) return 'Edge';
-    elseif (strpos($this->userAgent, 'Chrome')) return 'Chrome';
-    elseif (strpos($this->userAgent, 'Safari')) return 'Safari';
-    elseif (strpos($this->userAgent, 'Firefox')) return 'Firefox';
-    elseif (strpos($this->userAgent, 'MSIE') || strpos($this->userAgent, 'Trident/7')) return 'Internet Explorer';
+  public static function browser(){
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($_SERVER['HTTP_USER_AGENT'], 'OPR/')) return 'Opera';
+    elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Edge')) return 'Edge';
+    elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome')) return 'Chrome';
+    elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Safari')) return 'Safari';
+    elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox')) return 'Firefox';
+    elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') || strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7')) return 'Internet Explorer';
     return 'Other';
   }
 
 
-  function platform(){
-    if (strpos($this->userAgent, 'Windows') || strpos($this->userAgent, 'Win/')) return 'Windows';
-    elseif (strpos($this->userAgent, 'Linux')) return 'Linux';
-    elseif (strpos($this->userAgent, 'Mac')) return 'Mac OSX';
-    elseif (strpos($this->userAgent, 'Android')) return 'Android';
+  public static function platform(){
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') || strpos($_SERVER['HTTP_USER_AGENT'], 'Win/')) return 'Windows';
+    elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Linux')) return 'Linux';
+    elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Mac')) return 'Mac OSX';
+    elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Android')) return 'Android';
     return 'Other';
   }
 
-  function system(){
-    if (strpos($this->userAgent, 'Win64') || strpos($this->userAgent, 'WOW64')) return 'x64';
-    elseif (strpos($this->userAgent, 'x64')) return 'x64';
+  public static function system(){
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Win64') || strpos($_SERVER['HTTP_USER_AGENT'], 'WOW64')) return 'x64';
+    elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'x64')) return 'x64';
     return 'Other';
   }
 

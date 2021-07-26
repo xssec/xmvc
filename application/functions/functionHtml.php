@@ -318,3 +318,17 @@ function end_card(){
   </div>
   ';
 }
+
+
+function breadcrumb() {
+  $breadcrumb = explode("/",$_SERVER['REQUEST_URI']);
+  echo '
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">';
+  foreach($breadcrumb as $item){
+    echo '<li class="breadcrumb-item"><a href="'.$item.'">'.$item.'</a></li>';
+  }
+  echo'
+    </ol>
+  </nav>';
+}

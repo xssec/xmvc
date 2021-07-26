@@ -9,11 +9,8 @@ class LoginController extends Controller{
 
   public function index(){
     // Blocked BruteForce Attempts
-    require_once ROOT."/library/netinfo.class.php";
-    $env = new NetInfo($_SERVER['HTTP_USER_AGENT']);
-    $attempt = $this->logs->bruteforceCheck($env->ip(),MAX_LOGIN_INTERVAL);
+    $attempt = $this->logs->bruteforceCheck(NetInfo::ip(),MAX_LOGIN_INTERVAL);
     if ($attempt >= MAX_LOGIN_ATTEMPTS) { $this->redirect('blocked');}
-
     $this->view('login');
   }
 
@@ -27,21 +24,19 @@ class LoginController extends Controller{
       $password = password_verify($_POST['password'],$hash);
       if($password!=1){
         //Logs login attemps
-        require_once ROOT."/library/netinfo.class.php";
-        $env = new NetInfo($_SERVER['HTTP_USER_AGENT']);
         $logs = array();
         $logs['username'] = $email;
-        $logs['ip'] = $env->ip();
-        $logs['browser'] = $env->browser();
-        $logs['platform'] = $env->platform();
-        $logs['system'] = $env->system();
+        $logs['ip'] = NetInfo::ip();
+        $logs['browser'] = NetInfo::browser();
+        $logs['platform'] = NetInfo::platform();
+        $logs['system'] = NetInfo::system();
         $logs['status'] = 'failed';
         $logs['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
         $simpan = $this->logs->insert($logs);
         //End of Logs login attemps
 
         // Blocked BruteForce Attempts
-        $attempt = $this->logs->bruteforceCheck($env->ip(),MAX_LOGIN_INTERVAL);
+        $attempt = $this->logs->bruteforceCheck(NetInfo::ip(),MAX_LOGIN_INTERVAL);
         if ($attempt >= MAX_LOGIN_ATTEMPTS) { $this->redirect('blocked');}
 
         //redirect to password failed
@@ -66,14 +61,12 @@ class LoginController extends Controller{
           $exec = $this->session->insert($sessionData);
 
           //Logs login attemps
-          require_once ROOT."/library/netinfo.class.php";
-          $env = new NetInfo($_SERVER['HTTP_USER_AGENT']);
           $logs = array();
           $logs['username'] = $email;
-          $logs['ip'] = $env->ip();
-          $logs['browser'] = $env->browser();
-          $logs['platform'] = $env->platform();
-          $logs['system'] = $env->system();
+          $logs['ip'] = NetInfo::ip();
+          $logs['browser'] = NetInfo::browser();
+          $logs['platform'] = NetInfo::platform();
+          $logs['system'] = NetInfo::system();
           $logs['status'] = 'success';
           $logs['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
           $simpan = $this->logs->insert($logs);

@@ -99,7 +99,7 @@ end_div();
         //dateAxis.skipEmptyPeriods = true;
 
         var range = valueAxis.axisRanges.create();
-        range.value = 800;
+        range.value = 5;
         range.grid.stroke = am4core.color("#396478");
         range.grid.strokeWidth = .5;
         range.grid.strokeOpacity = 1;

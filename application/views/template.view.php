@@ -1,11 +1,12 @@
 <?php
-try {
-  $session = SessionManager::getCurrentSession();
-  DEFINE('USERNAME',$session->username);
-  DEFINE('ROLE',$session->role);
-
-} catch (Exception $exception) {
-  $this->redirect('login');
+if(isset($_COOKIE[COOKIE_NAME])) {
+  try {
+    $session = SessionManager::getCurrentSession();
+    DEFINE('USERNAME',$session->username);
+    DEFINE('ROLE',$session->role);
+  } catch (Exception $exception) {
+    $this->redirect('login');
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -31,8 +32,10 @@ try {
    </head>
 
    <body>
+     <div class="progress-container">
+       <div class="progress-bar" id="indicatorsBar"></div>
+     </div>
       <div class="container-fluid">
-
       <div class="page-wrapper chiller-theme toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
           <i class="fas fa-bars"></i>
@@ -91,6 +94,7 @@ try {
 
             </div>
           </div>
+          <span onclick="topFunction()" id="topBtn" title="Go to top"><i class='far fa-arrow-alt-circle-up'></i></span>
 
         </main>
         <!-- page-content" -->
@@ -126,6 +130,11 @@ try {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.js" integrity="sha512-8l10HpXwk93V4i9Sm38Y1F3H4KJlarwdLndY9S5v+hSAODWMx3QcAVECA23NTMKPtDOi53VFfhIuSsBjjfNGnA==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" integrity="sha512-3g+prZHHfmnvE1HBLwUnVuunaPOob7dpksI7/v6UnF/rnKGwHf/GdEq9K7iEN7qTtW+S0iivTcGpeTBqqB04wA==" crossorigin="anonymous" />
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.0/css/dataTables.dateTime.min.css">
+    <script src="https://cdn.datatables.net/datetime/1.1.0/js/dataTables.dateTime.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
+
     <?php
     load_script('bootstrap4-datetimepicker/bootstrap-datetimepicker.min.js');
     load_css('bootstrap4-datetimepicker/bootstrap-datetimepicker.min.css');
@@ -155,6 +164,9 @@ try {
       $(".page-wrapper").addClass("toggled");
     });
 
+    if (screen.width <= 1024) {
+      $(".page-wrapper").removeClass("toggled");
+    }
   });
 </script>
 
@@ -238,6 +250,29 @@ $('.xs-select').each(function () {
     allowClear: true,
 	});
 });
+
+// Scrolling Effect
+$(window).on("scroll", function() {
+  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  var scrolled = (winScroll / height) * 100;
+  document.getElementById("indicatorsBar").style.width = scrolled + "%";
+
+  if($(window).scrollTop()) {
+    $('nav').addClass('black');
+    document.getElementById("topBtn").style.display = "block";
+  }else {
+    $('nav').removeClass('black');
+    document.getElementById("topBtn").style.display = "none";
+  }
+
+});
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 </script>
 
    </body>

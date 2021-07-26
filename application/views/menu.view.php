@@ -13,9 +13,7 @@
 			<i class="fa fa-desktop"></i>
 			<span id="local-ip">IP
 				<?php
-				require_once ROOT."/library/netinfo.class.php";
-				$env = new NetInfo($_SERVER['HTTP_USER_AGENT']);
-				echo $env->ip();
+				echo NetInfo::ip();
 				?>
 			</span>
 		</span>
@@ -84,7 +82,7 @@
   background-color: #333;
   color: #fff;
   text-align: center;
-  border-radius: 2px;
+  border-radius: 52px;
   padding: 16px;
   position: fixed;
   z-index: 1;

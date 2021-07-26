@@ -27,12 +27,12 @@ define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 
 // Allow self service user registration
-define('SELF_REGIST', false);
+define('SELF_REGIST', true);
 
 // Cookies configurations
 define('COOKIE_NAME', 'XS-SESSION');
 define('COOKIE_PATH', '/xmvc');
 
 // BruteForce Prevention
-define('MAX_LOGIN_ATTEMPTS', 25); // attempts
+define('MAX_LOGIN_ATTEMPTS', 5); // attempts
 define('MAX_LOGIN_INTERVAL', 10); // in minutes

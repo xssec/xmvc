@@ -24,9 +24,8 @@ class AuthModel extends Model{
     return $data;
   }
 
-  public function getUser(){
-    $sesid = $_SESSION['id'];
-    $queryx = "SELECT * from auth where (id='$sesid')";
+  public function getUser($sesid){
+    $queryx = "SELECT * from auth where (username='$sesid')";
     $query=$this->query($queryx);
     $data = $this->getResult($query);
     return $data;

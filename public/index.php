@@ -16,6 +16,7 @@ require_once (ROOT .'/library/Firebase/ExpiredException.php');
 require_once (ROOT .'/library/Firebase/BeforeValidException.php');
 require_once (ROOT .'/library/Firebase/SignatureInvalidException.php');
 require_once (ROOT .'/library/uuid.class.php');
+require_once (ROOT .'/library/netinfo.class.php');
 
 //Membuat function autload
 function __xautoload($className){

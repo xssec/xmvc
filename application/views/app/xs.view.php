@@ -5,24 +5,34 @@ end_div();
 
 //Content
 start_content();
-
   start_div('row');
-    start_div('col-md-6');
+    start_div('col-md-12');
       create_button("Add", "success", "addForm()", "plus-sign");
     end_div();
-    start_div('col-md-6');
-      echo '<span id="utility" class="float-right mb-5"></span>';
-    end_div();
   end_div();
-
   start_div('mb-3');end_div();
-  create_table(array("Title","Description","Attachment","Action"),"","xsTable");
+  ?>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card mb-3 is-card-dark">
+        <div class="card-body">
+          <div class="mb-3">
+            <h5 class="card-title text-muted">XS <span id="utility" class="float-right mb-2"></span></h5>
+          </div>
+          <?php create_table(array("Title","Description","Attachment","Action"),"","xsTable");?>
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php
+
 
 end_content();
 
 //Form Modal
 start_modal('modal-form', '', 'modal-lg');
 form_input("Title", "title", "text", '', "", "required");
+form_input("DateTime", "dateTime", "text", '', "", "required");
 form_textarea("Description", "description", "text", '', "richtext", "");
 
 $upload = true;
@@ -69,6 +79,8 @@ $(function(){
     "type" : "POST"
     }
   });
+  table.buttons().container().appendTo( '#utility' );
+
 });
 
 //Call Add Form
@@ -208,4 +220,13 @@ $(".custom-file-input").on("change", function() {
 			}
 
 	});
+</script>
+
+<script>
+$(document).ready(function() {
+    // Create date inputs
+    minDate = new DateTime($('#dateTime'), {
+        format: 'YYYY-MM-DD HH:mm:ss'
+    });
+});
 </script>

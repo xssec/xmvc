@@ -30,7 +30,7 @@ class SessionManager
       $jwt = JWT::encode($payload, SessionManager::$SECRET_KEY, 'HS256');
 
       $cookie_options = array (
-      //'expires' => time() + 60*60*24*30,
+      'expires' => time() + 60*60,//60*60*24*30, // 30D
       'path' => COOKIE_PATH,
       //'domain' => '.example.com', // leading dot for compatibility or use subdomain
       'secure' => true,     // or false

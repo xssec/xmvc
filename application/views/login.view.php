@@ -18,59 +18,81 @@
   require_once ROOT."/application/functions/functionHtml.php";
   ?>
 
-<div class="container">
-  <div class="row">
-    <div class="Absolute-Center is-Responsive">
-      <div class="text-center brandlogo mb-3"><span><?php echo '>;'?><span></div>
-      <div class="col-sm-12 col-md-12 col-md-offset-1">
-        <?php
-        if (SELF_REGIST) {
-          create_button("Register", "outline-success btn-sm", "addForm()", "");
-        }
-        ?>
-      </div>
-      <div class="col-sm-12 col-md-12 col-md-offset-1">
-      <hr>
-      <form role="form" action="<?= BASE_PATH ?>/login/check" method="post" autocomplete="off">
-        <?php
-        if(isset($msg)){
-          echo "<div class='alert alert-danger'>$msg</div>";
-        }
-        ?>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-          <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-          </div>
-          <input type="text" name="email" id="email" class="form-control " placeholder="E-mail" tabindex="1" autofocus>
-        </div>
 
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fas fa-fingerprint"></i></span>
-          </div>
-          <input type="password" name="password" id="password" class="form-control " placeholder="Password" tabindex="2">
-        </div>
+  <!-- count particles -->
+  <div class="count-particles">
 
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12">
-          <span class="text-info"><center>Unauthorised access or use shall render the user liable to criminal and/or civil prosecution.</center></span>
-          </div>
-        </div>
+    <div class="container">
+    	<div class="d-flex justify-content-center h-100 mb-3">
+    		<div class="card">
+    			<div class="card-header">
+    				<h3>Sign In</h3>
 
-        <hr>
-        <div class="row mb-3">
-          <div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Login" class="btn btn-secondary btn-block" tabindex="3"></div>
-        </div>
-      </form>
-      </div>
+    				<div class="d-flex justify-content-end social_icon">
+    					<span><i class="fab fa-facebook-square"></i></span>
+    					<span><i class="fab fa-google-plus-square"></i></span>
+    					<span><i class="fab fa-twitter-square"></i></span>
+    				</div>
+
+    			</div>
+    			<div class="card-body">
+            <form role="form" action="<?= BASE_PATH ?>/login/check" method="post" autocomplete="off">
+              <div class="mb-3 text-danger"><?php if(isset($msg)){echo $msg;}?></div>
+    					<div class="input-group form-group">
+    						<div class="input-group-prepend">
+    							<span class="input-group-text login_btn"><i class="fas fa-user"></i></span>
+    						</div>
+    						<input type="text" id="email" name="email" class="form-control" placeholder="username">
+    					</div>
+    					<div class="input-group form-group">
+    						<div class="input-group-prepend">
+    							<span class="input-group-text login_btn"><i class="fas fa-key"></i></span>
+    						</div>
+    						<input type="password" id="password" name="password" class="form-control" placeholder="password">
+    					</div>
+    					<div class="row align-items-center remember">
+    						<input type="checkbox">Remember Me
+    					</div>
+    					<div class="form-group">
+    						<button type="submit" name="submit" value="Login" class="btn btn-outline-secondary btn-lg float-right login_btn">Login</button>
+    					</div>
+    				</form>
+    			</div>
+    			<div class="card-footer">
+            <?php
+            if (SELF_REGIST) {
+              echo '
+              <div class="d-flex justify-content-center links">
+                Don\'t have an account?<a href="#"><span onclick="addForm(); return false">Sign Up</span></a>
+              </div>
+              ';
+            }
+            ?>
+            <div class="d-flex justify-content-center mb-2">
+              <a href="#">Forgot your password?</a>
+            </div>
+            <span class="text-info"><center>Unauthorised access or use shall render the user liable to criminal and/or civil prosecution.</center></span>
+
+    			</div>
+    		</div>
+    	</div>
     </div>
+
   </div>
-</div>
 
-<div id="particles-js"></div>
+  <!-- particles.js container -->
+  <div id="particles-js"></div>
+  <?php
+    load_script('particles/particles.js');
+    load_css('css/auth.css');
+  ?>
 
-</body>
-</html>
+  <script>
+  /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+  particlesJS.load('particles-js', '<?= BASE_PATH."/public/particles/particles.json";?>', function() {
+    console.log('callback - particles.js config loaded');
+  });
+  </script>
 
 <?php
 if (SELF_REGIST) {
@@ -87,7 +109,7 @@ function addForm(){
   save_method = "add";
   $('#modal-form').modal('show');
   $('#modal-form form')[0].reset();
-  $('.modal-title').text('Registrasi');
+  $('.modal-title').text('Sign Up');
 }
 
 function saveData(){
@@ -115,9 +137,6 @@ function saveData(){
   load_css('css/auth.css');
 ?>
 
-<script>
-/* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
-particlesJS.load('particles-js', '<?= BASE_PATH."/public/particles/particles.json";?>', function() {
-  console.log('callback - particles.js config loaded');
-});
-</script>
+
+  </body>
+  </html>
